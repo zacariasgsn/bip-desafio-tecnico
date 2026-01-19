@@ -1,0 +1,86 @@
+<h2>Benefícios</h2>
+
+<div style="margin-bottom: 16px; display: flex; gap: 12px;">
+  <button
+    mat-raised-button
+    color="primary"
+    routerLink="/beneficios/novo">
+    Novo Benefício
+  </button>
+
+  <button
+    mat-raised-button
+    color="accent"
+    routerLink="beneficios/transferir">
+    Transferir
+  </button>
+</div>
+
+<table
+  mat-table
+  [dataSource]="dataSource"
+  class="mat-elevation-z8"
+  style="width: 100%;">
+
+  <ng-container matColumnDef="nome">
+    <th mat-header-cell *matHeaderCellDef> Nome </th>
+    <td mat-cell *matCellDef="let b">
+      {{ b.nome }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="descricao">
+    <th mat-header-cell *matHeaderCellDef> Descrição </th>
+    <td mat-cell *matCellDef="let b">
+      {{ b.descricao }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="valor">
+    <th mat-header-cell *matHeaderCellDef> Valor </th>
+    <td mat-cell *matCellDef="let b">
+      {{ b.valor | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="ativo">
+    <th mat-header-cell *matHeaderCellDef> Status </th>
+    <td mat-cell *matCellDef="let b">
+      <span
+        [style.color]="b.ativo ? 'green' : 'red'">
+        {{ b.ativo ? 'Ativo' : 'Inativo' }}
+      </span>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="acoes">
+    <th mat-header-cell *matHeaderCellDef> Ações </th>
+    <td mat-cell *matCellDef="let b">
+
+      <button
+        mat-icon-button
+        color="primary"
+        [routerLink]="['beneficios/editar/', b.id]">
+        ✏️
+      </button>
+
+      <button
+        mat-icon-button
+        color="warn"
+        (click)="confirmarExclusao(b.id)">
+        🗑️
+      </button>
+
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="['nome','descricao','valor','ativo','acoes']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['nome','descricao','valor','ativo','acoes'];"></tr>
+
+</table>
+
+<mat-paginator
+  [pageSize]="5"
+  [pageSizeOptions]="[5, 10, 20]"
+  showFirstLastButtons>
+</mat-paginator>
